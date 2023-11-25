@@ -6,13 +6,9 @@ const BOTTOM_KEYS = ['Enter', 'ㅋ', 'ㅌ', 'ㅊ', 'ㅍ', 'ㅠ', 'ㅜ', 'ㅡ', '
 
 export type KeyboardProps = {
   handleKeypadClick: (word: string) => void;
-  handleDelete?: () => void;
 };
 
-export default function Keyboard({
-  handleKeypadClick,
-  handleDelete,
-}: KeyboardProps) {
+export default function Keyboard({ handleKeypadClick }: KeyboardProps) {
   return (
     <div className='flex flex-col items-center mt-[4.5rem] sm:mt-[4rem]'>
       <div className='flex flex-row'>
@@ -39,7 +35,6 @@ export default function Keyboard({
             key={idx}
             keyword={keyword}
             handleKeypadClick={handleKeypadClick}
-            handleDelete={handleDelete}
           />
         ))}
       </div>

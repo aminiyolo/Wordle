@@ -5,21 +5,12 @@ type KeypadProps = {
   keyword: string;
 } & KeyboardProps;
 
-export default function Keypad({
-  keyword,
-  handleKeypadClick,
-  handleDelete = () => {},
-}: KeypadProps) {
+export default function Keypad({ keyword, handleKeypadClick }: KeypadProps) {
   const isLong = keyword.length > 1;
-
-  const handleClick = (keyword: string) => {
-    if (keyword === '<--') handleDelete();
-    else handleKeypadClick(keyword);
-  };
 
   return (
     <button
-      onClick={() => handleClick(keyword)}
+      onClick={() => handleKeypadClick(keyword)}
       className={clsx(
         'bg-green-500 h-[3rem] w-[2rem] text-center text-2xl !leading-[2.5rem] mx-1 my-1 rounded-md sm:w-11 sm:h-11 sm:!leading-[2.5rem] outline-none',
         {
