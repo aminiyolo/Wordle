@@ -1,15 +1,22 @@
 'use client';
 
+import { useCallback, useEffect, useState } from 'react';
+
 import { useInitStorage } from '@/hook/useInitStorage';
 import { useSetStorage } from '@/hook/useSetStorage';
-import { useCallback, useEffect, useState } from 'react';
 import Keyboard from './keyboard';
 import PlayGround from './playGround';
+import { WORDS } from '@/constant/words';
+
+const TODAY = new Date();
+const YEAR = TODAY.getFullYear();
+const MONTH = TODAY.getMonth();
+const DAY = TODAY.getDate();
+const QUIZ = WORDS[YEAR - MONTH * DAY].split('');
 
 export default function Main() {
   const currentIdx = parseInt(localStorage.getItem('currentIdx') as string);
   const records = JSON.parse(localStorage.getItem('playground') as string);
-
   const [keyword, setKeyword] = useState<string>('');
 
   const handleDelete = useCallback(() => {
@@ -51,7 +58,12 @@ export default function Main() {
 
   return (
     <>
-      <PlayGround keyword={keyword} currentIdx={currentIdx} records={records} />
+      <PlayGround
+        keyword={keyword}
+        currentIdx={currentIdx}
+        records={records}
+        answer={QUIZ}
+      />
       <Keyboard handleKeypadClick={handleKeypadClick} />
     </>
   );

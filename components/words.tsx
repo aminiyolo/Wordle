@@ -1,17 +1,22 @@
 import WordBox from './wordBox';
 
 type WordsProps = {
-  words: string;
-  keyword: string;
+  words: string[];
   isCurrent: boolean;
+  answer: string[];
 };
 
-export default function Words({ words, keyword, isCurrent }: WordsProps) {
-  const WORDS = isCurrent ? keyword.split('') : words?.split('');
+export default function Words({ words, isCurrent, answer }: WordsProps) {
   return (
     <div className='flex flex-row'>
       {Array.from({ length: 5 }).map((_, idx) => (
-        <WordBox key={idx} word={WORDS?.[idx] || ''} />
+        <WordBox
+          key={idx}
+          word={words?.[idx]}
+          isSame={answer[idx] === words?.[idx]}
+          isIncluded={answer.some((q) => q === words?.[idx])}
+          isCurrent={isCurrent}
+        />
       ))}
     </div>
   );
