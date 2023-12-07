@@ -1,18 +1,11 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-
+import QuizProvider from '@/context/quizProvider';
 import { useInitStorage } from '@/hook/useInitStorage';
 import { useSetStorage } from '@/hook/useSetStorage';
 import Keyboard from './keyboard';
 import PlayGround from './playGround';
-import { WORDS } from '@/constant/words';
-
-const TODAY = new Date();
-const YEAR = TODAY.getFullYear();
-const MONTH = TODAY.getMonth();
-const DAY = TODAY.getDate();
-const QUIZ = WORDS[YEAR - MONTH * DAY].split('');
 
 export default function Main() {
   const currentIdx = parseInt(localStorage.getItem('currentIdx') as string);
@@ -44,7 +37,7 @@ export default function Main() {
     [keyword, setKeyword, handleEnter],
   );
 
-  useInitStorage(records, currentIdx);
+  useInitStorage(records, currentIdx); // localStorage init
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/g.test(e.key)) handleKeypadClick(e.key); // 한글 입력 시
@@ -57,14 +50,9 @@ export default function Main() {
   }, [handleKeypadClick, handleDelete, handleEnter]);
 
   return (
-    <>
-      <PlayGround
-        keyword={keyword}
-        currentIdx={currentIdx}
-        records={records}
-        answer={QUIZ}
-      />
-      <Keyboard handleKeypadClick={handleKeypadClick} />
-    </>
+    <QuizProvider>
+      <PlayGround keyword={keyword} currentIdx={currentIdx} records={records} />
+      <Keyboard records={records} handleKeypadClick={handleKeypadClick} />
+    </QuizProvider>
   );
 }
