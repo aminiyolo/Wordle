@@ -8,8 +8,7 @@ import Keyboard from './keyboard';
 import PlayGround from './playGround';
 
 export default function Main() {
-  const currentIdx = parseInt(localStorage.getItem('currentIdx') as string);
-  const records = JSON.parse(localStorage.getItem('playground') as string);
+  const history = JSON.parse(localStorage.getItem('history') as string);
   const [keyword, setKeyword] = useState<string>('');
 
   const handleDelete = useCallback(() => {
@@ -20,11 +19,11 @@ export default function Main() {
   const handleEnter = useCallback(() => {
     if (keyword.length < 5) return;
 
-    const newRecords = [...records];
-    newRecords[currentIdx] = keyword;
+    const newRecords = [...history.records];
+    newRecords[history.currentIdx] = keyword;
 
-    useSetStorage('currentIdx', currentIdx + 1);
-    useSetStorage('playground', newRecords);
+    useSetStorage('currentIdx', history.currentIdx + 1);
+    useSetStorage('records', newRecords);
     setKeyword('');
   }, [keyword, setKeyword]);
 
@@ -37,7 +36,7 @@ export default function Main() {
     [keyword, setKeyword, handleEnter],
   );
 
-  useInitStorage(records, currentIdx); // localStorage init
+  useInitStorage(); // localStorage init
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/g.test(e.key)) handleKeypadClick(e.key); // 한글 입력 시
@@ -51,8 +50,12 @@ export default function Main() {
 
   return (
     <QuizProvider>
-      <PlayGround keyword={keyword} currentIdx={currentIdx} records={records} />
-      <Keyboard records={records} handleKeypadClick={handleKeypadClick} />
+      <PlayGround
+        keyword={keyword}
+        currentIdx={history?.currentIdx}
+        records={history?.records}
+      />
+      <Keyboard handleKeypadClick={handleKeypadClick} />
     </QuizProvider>
   );
 }
