@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const TODAY = new Date();
-const DATE = TODAY.getFullYear() + TODAY.getMonth() + TODAY.getDay();
+const DATE = TODAY.getFullYear() + TODAY.getMonth() + TODAY.getDate();
 
 function initialize() {
   localStorage.setItem(
