@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { WORDS } from '@/constant/words';
 
-type CheckType = Record<string, number>;
+export type CheckType = Record<string, number>;
 
 type QuizContextType = {
   quiz: string[];

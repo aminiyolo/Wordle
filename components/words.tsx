@@ -8,7 +8,7 @@ type WordsProps = {
 };
 
 export default function Words({ words, isCurrent }: WordsProps) {
-  const { quiz, check: _check } = useQuiz();
+  const { quiz, check: _check, setKeypadCheck } = useQuiz();
   const check = { ..._check };
 
   const isIncluded = useCallback(
@@ -31,6 +31,7 @@ export default function Words({ words, isCurrent }: WordsProps) {
           isCorrect={quiz[idx] === words?.[idx]}
           isIncluded={isIncluded(words?.[idx])}
           isCurrent={isCurrent}
+          setKeypadCheck={setKeypadCheck}
         />
       ))}
     </div>

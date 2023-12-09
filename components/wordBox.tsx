@@ -1,25 +1,29 @@
-import { useEffect, useState } from 'react';
-import { useQuiz } from '@/hook/useQuiz';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { CheckType } from '@/context/quizProvider';
 
 type WordBoxProps = {
   isCorrect: boolean;
   word: string;
   isCurrent: boolean;
   isIncluded: boolean;
+  info?: boolean;
+  setKeypadCheck?: Dispatch<SetStateAction<CheckType>>;
 };
 
 export default function WordBox({
-  word = '',
   isCorrect,
   isCurrent,
   isIncluded,
+  word = '',
+  info = false,
+  setKeypadCheck = () => {},
 }: WordBoxProps) {
   const [animation, setAnimation] = useState(false);
-  const { setKeypadCheck } = useQuiz();
 
   useEffect(
     function changeKeypadStatus() {
-      if (isCurrent || !word) return;
+      // info modal에서 사용 중이거나, 현재 입력 중이거나, 입력된 단어가 없다면
+      if (info || isCurrent || !word) return;
 
       // 1 -> 정답에 포함x,
       if (!isCorrect && !isIncluded)
