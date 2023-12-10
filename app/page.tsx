@@ -6,17 +6,22 @@ import Main from '@/components/main';
 import InfoModal from '@/components/infoModal';
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleModal = useCallback(() => {
-    setIsOpen((prev) => !prev);
+  const handleOpen = useCallback((e: MouseEvent) => {
+    e.stopPropagation();
+    setIsOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
   }, []);
 
   return (
     <main className='w-full h-full'>
-      <Header handleModal={handleModal} />
+      <Header handleOpen={handleOpen} />
       <Main />
-      {isOpen && <InfoModal isOpen={isOpen} handleModal={handleModal} />}
+      {isOpen && <InfoModal isOpen={isOpen} handleClose={handleClose} />}
     </main>
   );
 }

@@ -29,18 +29,20 @@ type Example =
 
 type Props = {
   isOpen: boolean;
-  handleModal: () => void;
+  handleClose: () => void;
 };
 
 const Container = ({ example }: { example: Example }) => {
   const isCorrect = example.type === 'correct';
   const include = example.type === 'include';
   const inCorrect = example.type === 'incorrect';
+
   return (
     <div className='flex flex-col items-center mb-4'>
       <div className='flex flex-row mb-1'>
         {example['str'].map((str, idx) => (
           <WordBox
+            key={idx}
             word={str}
             info={true}
             isCorrect={isCorrect && idx === 0}
@@ -54,9 +56,9 @@ const Container = ({ example }: { example: Example }) => {
   );
 };
 
-export default function InfoModal({ isOpen, handleModal }: Props) {
+export default function InfoModal({ isOpen, handleClose }: Props) {
   return (
-    <BaseModal title='게임 정보' isOpen={isOpen} handleModal={handleModal}>
+    <BaseModal title='게임 정보' isOpen={isOpen} handleClose={handleClose}>
       <div id='info' className='px-5'>
         <ul className='list-none mb-4 mx-2 text-center'>
           <li>WORDLE을 6번 만에 맞춰보세요. </li>
