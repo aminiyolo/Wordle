@@ -63,6 +63,7 @@ export default function InfoModal({ isOpen, handleClose }: Props) {
         <ul className='list-none mb-4 mx-2 text-center'>
           <li>WORDLE을 6번 만에 맞춰보세요. </li>
           <li>시도의 결과는 타일의 색 변화로 나타납니다. </li>
+          <li>게임은 하루에 한번만 가능하며 밤 12시에 초기화 됩니다.</li>
         </ul>
         {EXAMPLE_LIST.map((example) => (
           <ExampleContainer key={example.type} example={example} />
