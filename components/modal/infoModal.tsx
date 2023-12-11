@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseModal from './baseModal';
-import WordBox from './wordBox';
+import WordBox from '../wordBox';
 
 const FIRST_EXAMPLE = {
   str: ['ㅌ', 'ㅐ', 'ㅇ', 'ㅑ', 'ㅇ'],
@@ -32,7 +32,7 @@ type Props = {
   handleClose: () => void;
 };
 
-const Container = ({ example }: { example: Example }) => {
+const ExampleContainer = ({ example }: { example: Example }) => {
   const isCorrect = example.type === 'correct';
   const include = example.type === 'include';
   const inCorrect = example.type === 'incorrect';
@@ -65,7 +65,7 @@ export default function InfoModal({ isOpen, handleClose }: Props) {
           <li>시도의 결과는 타일의 색 변화로 나타납니다. </li>
         </ul>
         {EXAMPLE_LIST.map((example) => (
-          <Container key={example.type} example={example} />
+          <ExampleContainer key={example.type} example={example} />
         ))}
       </div>
     </BaseModal>
