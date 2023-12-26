@@ -9,7 +9,7 @@ export default function Header({ handleOpen }: HeaderProps) {
       <button
         id='info'
         onClick={(e) => handleOpen(e)}
-        className='absolute left-3/4 text-2xl sm:left-2/3 hover:cursor'
+        className='absolute left-3/4 text-2xl sm:left-2/3 outline-none hover:cursor'
       >
         <FaQuestionCircle />
       </button>
