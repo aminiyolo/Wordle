@@ -1,6 +1,9 @@
 import { FaQuestionCircle } from 'react-icons/fa';
+import { MouseEvent } from 'react';
 
-type HeaderProps = { handleOpen: (e: MouseEvent) => void };
+type HeaderProps = {
+  handleOpen: (e: MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+};
 
 export default function Header({ handleOpen }: HeaderProps) {
   return (
