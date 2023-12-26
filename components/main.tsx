@@ -32,7 +32,7 @@ export default function Main() {
     );
 
     if (notExist) {
-      showError('단어를 찾을 수 없습니다.', { durationMs: 550 });
+      showError('단어를 찾을 수 없습니다.', { durationMs: 700 });
       return;
     }
 

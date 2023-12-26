@@ -27,9 +27,7 @@ const DAY = TODAY.getDate();
 const quiz = WORDS[YEAR - MONTH * DAY].split('');
 
 export default function QuizProvider({ children }: { children: ReactNode }) {
-  const { records, currentIdx } = JSON.parse(
-    localStorage.getItem('history') ?? '{}',
-  );
+  const { records } = JSON.parse(localStorage.getItem('history') ?? '{}');
   const success = records?.some((record: string) => record === quiz.join(''));
   const fail = records?.filter((record: string) => record).length === 6;
 
