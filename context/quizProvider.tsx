@@ -13,7 +13,8 @@ type QuizContextType = {
   quiz: string[];
   keypadCheck: CheckType;
   check: CheckType;
-  hit: boolean;
+  success: boolean;
+  fail: boolean;
   setKeypadCheck: Dispatch<SetStateAction<CheckType>>;
 };
 
@@ -26,8 +27,11 @@ const DAY = TODAY.getDate();
 const quiz = WORDS[YEAR - MONTH * DAY].split('');
 
 export default function QuizProvider({ children }: { children: ReactNode }) {
-  const { records } = JSON.parse(localStorage.getItem('history') ?? '{}');
-  const hit = records?.some((record: string) => record === quiz.join(''));
+  const { records, currentIdx } = JSON.parse(
+    localStorage.getItem('history') ?? '{}',
+  );
+  const success = records?.some((record: string) => record === quiz.join(''));
+  const fail = records?.filter((record: string) => record).length === 6;
 
   // 1 -> 정답에 포함x, 2 -> 정답에 포함되있지만 다른 위치, 3 -> 정답 및 올바른 위치
   const [keypadCheck, setKeypadCheck] = useState<CheckType>({});
@@ -45,7 +49,14 @@ export default function QuizProvider({ children }: { children: ReactNode }) {
 
   return (
     <QuizContext.Provider
-      value={{ quiz, keypadCheck, setKeypadCheck, hit, check: quizCheck }}
+      value={{
+        quiz,
+        keypadCheck,
+        fail,
+        setKeypadCheck,
+        success,
+        check: quizCheck,
+      }}
     >
       {children}
     </QuizContext.Provider>
