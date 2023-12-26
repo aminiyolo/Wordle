@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, MouseEvent } from 'react';
 import Header from '@/components/header';
 import Main from '@/components/main';
 import InfoModal from '@/components/modal/infoModal';
