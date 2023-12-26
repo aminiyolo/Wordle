@@ -1,5 +1,5 @@
 import { useQuiz } from '@/hook/useQuiz';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import WordBox from './wordBox';
 
 type WordsProps = {
@@ -9,7 +9,7 @@ type WordsProps = {
 
 export default function Words({ words, isCurrent }: WordsProps) {
   const { quiz, check: _check, setKeypadCheck } = useQuiz();
-  const check = { ..._check };
+  const check = useMemo(() => ({ ..._check }), [_check]);
 
   const isIncluded = useCallback(
     (word: string) => {

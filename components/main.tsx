@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useInitStorage } from '@/hook/useInitStorage';
-import { useSetStorage } from '@/hook/useSetStorage';
 import Keyboard from './keyboard';
 import PlayGround from './playGround';
 import { useQuiz } from '@/hook/useQuiz';
 import { useAlert } from '@/hook/useAlert';
 import { WORDS } from '@/constant/words';
+import { setStorage } from '@/utils/setStorage';
 
 export default function Main() {
   const history = JSON.parse(localStorage.getItem('history') ?? '{}');
@@ -36,10 +36,10 @@ export default function Main() {
       return;
     }
 
-    useSetStorage('currentIdx', history.currentIdx + 1);
-    useSetStorage('records', newRecords);
+    setStorage('currentIdx', history.currentIdx + 1);
+    setStorage('records', newRecords);
     setKeyword('');
-  }, [keyword, setKeyword]);
+  }, [keyword, history, showError, setKeyword]);
 
   const handleKeypadClick = useCallback(
     (word: string) => {
@@ -48,7 +48,7 @@ export default function Main() {
       if (keyword.length > 4) word === 'Enter' && handleEnter();
       else setKeyword((prev) => prev + word);
     },
-    [keyword, setKeyword, handleEnter],
+    [keyword, success, setKeyword, handleEnter, handleDelete],
   );
 
   useInitStorage(); // localStorage init
@@ -68,7 +68,14 @@ export default function Main() {
 
     window.addEventListener('keyup', handler);
     return () => window.removeEventListener('keyup', handler);
-  }, [handleKeypadClick, handleDelete, handleEnter, isOpen]);
+  }, [
+    handleKeypadClick,
+    handleDelete,
+    handleEnter,
+    showError,
+    isOpen,
+    success,
+  ]);
 
   useEffect(
     function showAlert() {
@@ -83,7 +90,7 @@ export default function Main() {
         showFail('실패했어요,', { persist: true });
       }
     },
-    [success, fail],
+    [success, fail, showSuccess, showFail],
   );
 
   return (

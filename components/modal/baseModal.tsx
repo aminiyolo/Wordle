@@ -26,7 +26,7 @@ export default function BaseModal({
 
     window.addEventListener('keydown', pressESC);
     return () => window.removeEventListener('keydown', pressESC);
-  }, []);
+  }, [handleClose, isOpen]);
 
   return (
     <div className='fixed inset-0 z-10 overflow-y-auto'>
