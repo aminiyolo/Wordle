@@ -10,10 +10,10 @@ import { WORDS } from '@/constant/words';
 import { setStorage } from '@/utils/setStorage';
 
 export default function Main() {
-  const history = JSON.parse(localStorage.getItem('history') ?? '{}');
   const [keyword, setKeyword] = useState<string>('');
   const { isOpen, showSuccess, showError, showFail } = useAlert();
-  const { success, fail } = useQuiz();
+  const { success, fail, guess, currentIdx, setCurrentIdx, setGuess } =
+    useQuiz();
 
   // Backspace 또는 <--
   const handleDelete = useCallback(() => {
@@ -24,20 +24,19 @@ export default function Main() {
   const handleEnter = useCallback(() => {
     if (keyword.length < 5) return;
 
-    const newRecords = [...history.records];
-    newRecords[history.currentIdx] = keyword;
-
-    const notExist = !WORDS.find(
-      (word) => word === newRecords[history.currentIdx],
-    );
+    const newRecords = [...guess];
+    newRecords[currentIdx] = keyword;
+    const notExist = !WORDS.find((word) => word === newRecords[currentIdx]);
 
     if (notExist) {
       showError('단어를 찾을 수 없습니다.', { durationMs: 700 });
       return;
     }
 
-    setStorage('currentIdx', history.currentIdx + 1);
+    setStorage('currentIdx', currentIdx + 1);
     setStorage('records', newRecords);
+    setGuess(newRecords);
+    setCurrentIdx(currentIdx + 1);
     setKeyword('');
   }, [keyword, history, showError, setKeyword]);
 
@@ -53,6 +52,7 @@ export default function Main() {
 
   useInitStorage(); // localStorage init
   useEffect(() => {
+    // 키보드 이벤트
     if (success) return;
 
     const handler = (e: KeyboardEvent) => {
@@ -66,8 +66,8 @@ export default function Main() {
       }
     };
 
-    window.addEventListener('keyup', handler);
-    return () => window.removeEventListener('keyup', handler);
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
   }, [
     handleKeypadClick,
     handleDelete,
@@ -95,11 +95,7 @@ export default function Main() {
 
   return (
     <>
-      <PlayGround
-        keyword={keyword}
-        currentIdx={history?.currentIdx}
-        records={history?.records}
-      />
+      <PlayGround keyword={keyword} currentIdx={currentIdx} records={guess} />
       <Keyboard handleKeypadClick={handleKeypadClick} />
     </>
   );

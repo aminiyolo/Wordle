@@ -3,9 +3,10 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
+  useEffect,
   useState,
 } from 'react';
-import { WORDS } from '@/constant/words';
+import { getQuiz } from '@/utils/getQuiz';
 
 export type CheckType = Record<string, number>;
 
@@ -15,21 +16,22 @@ type QuizContextType = {
   check: CheckType;
   success: boolean;
   fail: boolean;
+  guess: string[];
+  currentIdx: number;
+  setCurrentIdx: Dispatch<SetStateAction<number>>;
+  setGuess: Dispatch<SetStateAction<string[] | null>>;
   setKeypadCheck: Dispatch<SetStateAction<CheckType>>;
 };
 
 export const QuizContext = createContext<QuizContextType | null>(null);
 
-const TODAY = new Date();
-const YEAR = TODAY.getFullYear();
-const MONTH = TODAY.getMonth();
-const DAY = TODAY.getDate();
-const quiz = WORDS[YEAR - MONTH * DAY].split('');
-
 export default function QuizProvider({ children }: { children: ReactNode }) {
-  const { records } = JSON.parse(localStorage.getItem('history') ?? '{}');
-  const success = records?.some((record: string) => record === quiz.join(''));
-  const fail = records?.filter((record: string) => record).length === 6;
+  const [guess, setGuess] = useState<string[] | null>(null);
+  const [currentIdx, setCurrentIdx] = useState<number>(-1);
+  const quiz = getQuiz();
+
+  const success = !!guess?.some((record: string) => record === quiz.join(''));
+  const fail = guess?.filter((record: string) => record).length === 6;
 
   // 1 -> 정답에 포함x, 2 -> 정답에 포함되있지만 다른 위치, 3 -> 정답 및 올바른 위치
   const [keypadCheck, setKeypadCheck] = useState<CheckType>({});
@@ -45,15 +47,31 @@ export default function QuizProvider({ children }: { children: ReactNode }) {
     return check;
   });
 
+  useEffect(() => {
+    if (localStorage.getItem('history')) {
+      const history = JSON.parse(localStorage.getItem('history') ?? '{}');
+      setGuess(history.records);
+      setCurrentIdx(history.currentIdx);
+    } else {
+      setGuess(['', '', '', '', '', '']);
+      setCurrentIdx(0);
+    }
+  }, []);
+
+  if (guess === null || currentIdx === null) return null;
   return (
     <QuizContext.Provider
       value={{
         quiz,
         keypadCheck,
         fail,
-        setKeypadCheck,
         success,
+        guess,
+        currentIdx,
         check: quizCheck,
+        setCurrentIdx,
+        setKeypadCheck,
+        setGuess,
       }}
     >
       {children}
