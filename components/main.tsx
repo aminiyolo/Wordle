@@ -33,8 +33,7 @@ export default function Main() {
       return;
     }
 
-    setStorage('currentIdx', currentIdx + 1);
-    setStorage('records', newRecords);
+    setStorage({ currentIdx: currentIdx + 1, records: newRecords });
     setGuess(newRecords);
     setCurrentIdx(currentIdx + 1);
     setKeyword('');
@@ -45,7 +44,7 @@ export default function Main() {
       if (success) return;
       if (word === '<--') handleDelete();
       else if (word === 'Enter') keyword.length > 4 && handleEnter();
-      else setKeyword((prev) => prev + word);
+      else if (keyword.length <= 4) setKeyword((prev) => prev + word);
     },
     [keyword, success, setKeyword, handleEnter, handleDelete],
   );
