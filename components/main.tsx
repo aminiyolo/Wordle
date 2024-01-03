@@ -43,8 +43,8 @@ export default function Main() {
   const handleKeypadClick = useCallback(
     (word: string) => {
       if (success) return;
-      if (keyword === '<--') handleDelete();
-      if (keyword.length > 4) word === 'Enter' && handleEnter();
+      if (word === '<--') handleDelete();
+      else if (word === 'Enter') keyword.length > 4 && handleEnter();
       else setKeyword((prev) => prev + word);
     },
     [keyword, success, setKeyword, handleEnter, handleDelete],

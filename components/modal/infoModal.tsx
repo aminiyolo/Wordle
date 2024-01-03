@@ -4,7 +4,7 @@ import WordBox from '../wordBox';
 
 const FIRST_EXAMPLE = {
   str: ['ㅌ', 'ㅐ', 'ㅇ', 'ㅑ', 'ㅇ'],
-  info: `ㅎ는 '단어'에 포함되어 있으며, 올바른 위치에 있습니다.`,
+  info: `ㅌ은 '단어'에 포함되어 있으며, 올바른 위치에 있습니다.`,
   type: 'correct',
 } as const;
 
@@ -16,7 +16,7 @@ const SECOND_EXAMPLE = {
 
 const THIRD_EXAMPLE = {
   str: ['ㄱ', 'ㅗ', 'ㅇ', 'ㄱ', 'l'],
-  info: `ㄱ는 단어에 포함되어 있지 않습니다.`,
+  info: `ㄱ은 단어에 포함되어 있지 않습니다.`,
   type: 'incorrect',
 } as const;
 
