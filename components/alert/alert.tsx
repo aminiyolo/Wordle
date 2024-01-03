@@ -20,7 +20,9 @@ export default function Alert() {
           <h1 className='my-[2px]'>
             {message}
             {['fail', 'success'].includes(status) && (
-              <span className='px-[6px]'>정답은 '{quiz}' 입니다!</span>
+              <span className='px-[6px]'>
+                정답은 &apos;{quiz}&apos; 입니다!
+              </span>
             )}
           </h1>
           <div></div>
