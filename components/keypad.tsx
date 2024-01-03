@@ -19,10 +19,9 @@ export default function Keypad({ keyword, handleKeypadClick }: KeypadProps) {
           'text-[0.8rem]': isNotWord,
           '!leading-[3.5]': isNotWord,
           'sm:w-14': isNotWord,
-          // 1 -> 정답에 포함x, 2 -> 정답에 포함 되어 있지만 다른 위치, 3 -> 정답 및 올바른 위치
-          '!bg-[#3A3A3C]': keypadCheck[keyword] === 1,
-          '!bg-[#B49F3A]': keypadCheck[keyword] === 2,
-          '!bg-[#32812b]': keypadCheck[keyword] === 3,
+          '!bg-[#3A3A3C]': keypadCheck[keyword] === 'incorrect',
+          '!bg-[#B49F3A]': keypadCheck[keyword] === 'include',
+          '!bg-[#32812b]': keypadCheck[keyword] === 'correct',
         },
       )}
     >

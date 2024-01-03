@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { CheckType } from '@/context/quizProvider';
+import { KeypadCheckType } from '@/context/quizProvider';
 
 type WordBoxProps = {
   isCorrect: boolean;
@@ -7,7 +7,7 @@ type WordBoxProps = {
   isCurrent: boolean;
   isIncluded: boolean;
   info?: boolean;
-  setKeypadCheck?: Dispatch<SetStateAction<CheckType>>;
+  setKeypadCheck?: Dispatch<SetStateAction<KeypadCheckType>>;
 };
 
 export default function WordBox({
@@ -19,22 +19,24 @@ export default function WordBox({
   setKeypadCheck = () => {},
 }: WordBoxProps) {
   const [animation, setAnimation] = useState(false);
+  const incorrect = !isCurrent && !isCorrect && !isIncluded && word;
+  const correct = !isCurrent && isCorrect && word;
+  const include = !isCurrent && !isCorrect && isIncluded && word;
 
   useEffect(
     function changeKeypadStatus() {
-      // info modal에서 사용 중이거나, 현재 입력 중이거나, 입력된 단어가 없다면
-      if (info || isCurrent || !word) return;
+      // info modal에서 예시로 사용 중인 경우
+      if (info) return;
 
-      // 1 -> 정답에 포함x,
-      if (!isCorrect && !isIncluded)
-        setKeypadCheck((prev) => ({ ...prev, [word]: 1 }));
+      // 정답에 포함x,
+      if (incorrect)
+        setKeypadCheck((prev) => ({ ...prev, [word]: 'incorrect' }));
 
-      // 2 -> 정답에 포함되있지만 다른 위치
-      if (!isCorrect && isIncluded)
-        setKeypadCheck((prev) => ({ ...prev, [word]: 2 }));
+      // 정답에 포함되있지만 다른 위치
+      if (include) setKeypadCheck((prev) => ({ ...prev, [word]: 'include' }));
 
-      //3 -> 정답 및 올바른 위치
-      if (isCorrect) setKeypadCheck((prev) => ({ ...prev, [word]: 3 }));
+      // 정답 및 올바른 위치
+      if (correct) setKeypadCheck((prev) => ({ ...prev, [word]: 'correct' }));
     },
     [isCurrent],
   );
@@ -52,15 +54,14 @@ export default function WordBox({
     [word],
   );
 
-  const inCorrect = !isCurrent && !isCorrect && word;
   return (
     <div className='mx-1 my-1'>
       <div
         className={`
           p-4 px-3 w-14 h-14 bg-[#1e1c1c] text-center text-3xl leading-[0.8] rounded-sm
-          ${inCorrect && !isIncluded && '!bg-[#3b3c3a]'} 
-          ${inCorrect && isIncluded && '!bg-[#B49F3A]'}
-          ${!isCurrent && isCorrect && '!bg-[#32812b]'} 
+          ${incorrect && '!bg-[#3b3c3a]'} 
+          ${include && '!bg-[#B49F3A]'}
+          ${correct && '!bg-[#32812b]'} 
           ${animation ? 'scale-[1.2]' : 'scale-[1]'}`}
       >
         {word}

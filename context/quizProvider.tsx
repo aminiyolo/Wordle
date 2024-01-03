@@ -9,10 +9,11 @@ import {
 import { getQuiz } from '@/utils/getQuiz';
 
 export type CheckType = Record<string, number>;
+export type KeypadCheckType = Record<string, string>;
 
 type QuizContextType = {
   quiz: string[];
-  keypadCheck: CheckType;
+  keypadCheck: KeypadCheckType;
   check: CheckType;
   success: boolean;
   fail: boolean;
@@ -20,7 +21,7 @@ type QuizContextType = {
   currentIdx: number;
   setCurrentIdx: Dispatch<SetStateAction<number>>;
   setGuess: Dispatch<SetStateAction<string[] | null>>;
-  setKeypadCheck: Dispatch<SetStateAction<CheckType>>;
+  setKeypadCheck: Dispatch<SetStateAction<KeypadCheckType>>;
 };
 
 export const QuizContext = createContext<QuizContextType | null>(null);
@@ -33,8 +34,7 @@ export default function QuizProvider({ children }: { children: ReactNode }) {
   const success = !!guess?.some((record: string) => record === quiz.join(''));
   const fail = guess?.filter((record: string) => record).length === 6;
 
-  // 1 -> 정답에 포함x, 2 -> 정답에 포함되있지만 다른 위치, 3 -> 정답 및 올바른 위치
-  const [keypadCheck, setKeypadCheck] = useState<CheckType>({});
+  const [keypadCheck, setKeypadCheck] = useState<KeypadCheckType>({});
   const [quizCheck, _] = useState<CheckType>(() => {
     const check: CheckType = {};
     quiz.forEach((q) => {
