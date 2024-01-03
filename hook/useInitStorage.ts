@@ -18,7 +18,7 @@ function initialize() {
 export function useInitStorage() {
   useEffect(() => {
     const history = JSON.parse(localStorage.getItem('history') ?? '{}');
-    // 오늘 날짜의 기록이 아닌 기록이 있거나 기록이 없다면, init
+    // 오늘 날짜의 기록이 아닌 기록이 있거나 기록이 없다면, 로컬스토리지 값 초기화
     if (!history?.date || history?.date !== DATE) initialize();
   }, []);
 }
