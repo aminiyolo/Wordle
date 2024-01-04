@@ -19,26 +19,20 @@ export default function WordBox({
   setKeypadCheck = () => {},
 }: WordBoxProps) {
   const [animation, setAnimation] = useState(false);
-  const incorrect = !isCurrent && !isCorrect && !isIncluded && word;
-  const correct = !isCurrent && isCorrect && word;
-  const include = !isCurrent && !isCorrect && isIncluded && word;
+  const incorrect = !isCurrent && !isCorrect && !isIncluded && word; // 정답에 포함 x
+  const correct = !isCurrent && isCorrect && word; // 정답
+  const include = !isCurrent && !isCorrect && isIncluded && word; // 정답에 포함이나, 올바르지 않은 위치
 
   useEffect(
     function changeKeypadStatus() {
       // info modal에서 예시로 사용 중인 경우
       if (info) return;
-
-      // 정답에 포함x,
       if (incorrect)
         setKeypadCheck((prev) => ({ ...prev, [word]: 'incorrect' }));
-
-      // 정답에 포함되있지만 다른 위치
       if (include) setKeypadCheck((prev) => ({ ...prev, [word]: 'include' }));
-
-      // 정답 및 올바른 위치
       if (correct) setKeypadCheck((prev) => ({ ...prev, [word]: 'correct' }));
     },
-    [isCurrent],
+    [isCurrent, incorrect, include, correct, info],
   );
 
   useEffect(
@@ -62,7 +56,7 @@ export default function WordBox({
           ${incorrect && '!bg-[#3b3c3a]'} 
           ${include && '!bg-[#B49F3A]'}
           ${correct && '!bg-[#32812b]'} 
-          ${animation ? 'scale-[1.2]' : 'scale-[1]'}`}
+          ${animation ? 'scale-[1.3]' : 'scale-[1]'}`}
       >
         {word}
       </div>
