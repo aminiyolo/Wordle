@@ -54,15 +54,27 @@ export default function Main() {
     // 키보드 이벤트
     if (success) return;
 
+    let isTryRefresh = false;
     const handler = (e: KeyboardEvent) => {
-      if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/g.test(e.key)) handleKeypadClick(e.key); // 한글 입력 시
-      if (e.key === 'Backspace') handleDelete();
-      if (e.key === 'Enter') handleEnter();
-      if (/[a-zA-Z]/g.test(e.key) && e.key.length < 2) {
+      if (e.code === 'Enter' || e.code === 'Space') {
+        e.preventDefault();
+      }
+
+      if (/[a-zA-Z]/g.test(e.key) && e.key.length === 1) {
         // 영어 입력 시
+        if (e.ctrlKey || e.metaKey) isTryRefresh = true;
+        if (isTryRefresh && e.key === 'r') {
+          isTryRefresh = false;
+          return;
+        }
+
         if (isOpen) return;
         showError('한/영 키를 눌러 한글로 바꿔주세요!', { durationMs: 850 });
       }
+
+      if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/g.test(e.key)) handleKeypadClick(e.key); // 한글 입력 시
+      if (e.key === 'Enter') handleEnter();
+      if (e.key === 'Backspace') handleDelete();
     };
 
     window.addEventListener('keydown', handler);
