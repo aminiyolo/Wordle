@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 import { getQuiz } from '@/utils/getQuiz';
-import { checkToday } from '@/utils/checkToday';
+import { checkToday, initialize } from '@/utils/checkToday';
 
 export type CheckType = Record<string, number>;
 export type KeypadCheckType = Record<string, string>;
@@ -49,20 +49,23 @@ export default function QuizProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    function initState() {
+    function init() {
+      initialize();
       setGuess(['', '', '', '', '', '']);
       setCurrentIdx(0);
     }
 
     const historyFromLocalStorage = localStorage.getItem('history');
     if (historyFromLocalStorage) {
-      const history = JSON.parse(historyFromLocalStorage ?? '{}');
-      if (!checkToday(history.date)) initState();
-      else {
-        setGuess(history.records);
-        setCurrentIdx(history.currentIdx);
+      const { date, records, currentIdx } = JSON.parse(historyFromLocalStorage);
+      if (checkToday(date)) {
+        setGuess(records);
+        setCurrentIdx(currentIdx);
+        return;
       }
-    } else initState();
+    }
+
+    init();
   }, []);
 
   if (guess === null || currentIdx === null) return null;
