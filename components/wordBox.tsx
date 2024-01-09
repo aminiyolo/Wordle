@@ -20,8 +20,8 @@ export default function WordBox({
 }: WordBoxProps) {
   const [animation, setAnimation] = useState(false);
   const incorrect = !isCurrent && !isCorrect && !isIncluded && word; // 정답에 포함 x
-  const correct = !isCurrent && isCorrect && word; // 정답
   const include = !isCurrent && !isCorrect && isIncluded && word; // 정답에 포함이나, 올바르지 않은 위치
+  const correct = !isCurrent && isCorrect && word; // 정답
 
   useEffect(
     function changeKeypadStatus() {
@@ -56,7 +56,7 @@ export default function WordBox({
           ${incorrect && '!bg-[#3b3c3a]'} 
           ${include && '!bg-[#B49F3A]'}
           ${correct && '!bg-[#32812b]'} 
-          ${animation ? 'scale-[1.3]' : 'scale-[1]'}`}
+          ${animation ? 'scale-[1.2]' : 'scale-[1]'}`}
       >
         {word}
       </div>

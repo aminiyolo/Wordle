@@ -7,14 +7,19 @@ export default function Alert() {
   const { isOpen, message, status } = useAlert();
   const { quiz } = useQuiz();
 
+  const colorObj: Record<string, string> = {
+    success: `bg-[#22C55D] text-white w-[23rem] h-[2.2rem]`,
+    error: `!bg-[#FFFFFF]`,
+    fail: `!bg-[#FECDD3]`,
+  };
+
+  const color = colorObj[status];
   if (isOpen) {
     return (
       <div
-        className={`absolute w-[22rem] -translate-x-1/2 -translate-y-1/3 top-[25%] left-[50%] z-10 bg-[#171717] rounded-md text-center text-black text-lg tracking-wide h-[2rem]
-      ${status === 'success' && `bg-[#22C55D] text-white w-[23rem] h-[2.2rem]`}
-      ${status === 'error' && `!bg-[#FFFFFF]`}
-      ${status === 'fail' && `!bg-[#FECDD3]`}
-      `}
+        className={`${color}
+          absolute w-[22rem] -translate-x-1/2 -translate-y-1/3 top-[25%] left-[50%] z-10 bg-[#171717] rounded-md text-center text-black text-lg tracking-wide h-[2rem]    
+        `}
       >
         <div className='h-[10rem] px-6'>
           <h1 className='my-[2px]'>

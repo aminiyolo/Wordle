@@ -9,9 +9,10 @@ export type KeyboardProps = {
 };
 
 export default function Keyboard({ handleKeypadClick }: KeyboardProps) {
+  const commonCSS = 'flex flex-row'; // Keypad 공통 CSS 변수
   return (
     <div className='flex flex-col items-center mt-[4.5rem] sm:mt-[4rem]'>
-      <div className='flex flex-row'>
+      <div className={`${commonCSS}`}>
         {TOP_KEYS.map((keyword, idx) => (
           <Keypad
             key={idx}
@@ -20,7 +21,7 @@ export default function Keyboard({ handleKeypadClick }: KeyboardProps) {
           />
         ))}
       </div>
-      <div className='flex flex-row'>
+      <div className={`${commonCSS}`}>
         {MIDDLE_KEYS.map((keyword, idx) => (
           <Keypad
             key={idx}
@@ -29,7 +30,7 @@ export default function Keyboard({ handleKeypadClick }: KeyboardProps) {
           />
         ))}
       </div>
-      <div className='flex flex-row'>
+      <div className={`${commonCSS}`}>
         {BOTTOM_KEYS.map((keyword, idx) => (
           <Keypad
             key={idx}
