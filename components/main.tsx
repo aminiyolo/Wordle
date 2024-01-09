@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useInitStorage } from '@/hook/useInitStorage';
 import Keyboard from './keyboard';
 import PlayGround from './playGround';
 import { useQuiz } from '@/hook/useQuiz';
@@ -49,7 +48,6 @@ export default function Main() {
     [keyword, success, setKeyword, handleEnter, handleDelete],
   );
 
-  useInitStorage(); // localStorage init
   useEffect(() => {
     // 키보드 이벤트
     if (success) return;
