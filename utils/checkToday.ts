@@ -1,19 +1,24 @@
-export function checkToday(history_date: number) {
+function getToday() {
+  // 오늘 날짜 구하기
   const TODAY = new Date();
-  const DATE = TODAY.getFullYear() + TODAY.getMonth() + TODAY.getDate();
+  return TODAY.getFullYear() + TODAY.getMonth() + TODAY.getDate();
+}
 
-  function initialize() {
-    localStorage.setItem(
-      'history',
-      JSON.stringify({
-        currentIdx: 0,
-        records: ['', '', '', '', '', ''],
-        date: DATE,
-      }),
-    );
-  }
+export function initialize() {
+  // localStorage 초기화
+  localStorage.setItem(
+    'history',
+    JSON.stringify({
+      currentIdx: 0,
+      records: ['', '', '', '', '', ''],
+      date: getToday(),
+    }),
+  );
+}
 
-  if (history_date === DATE) {
+export function checkToday(history_date: number) {
+  // localStorage의 날짜 값과 오늘 날짜 값 비교
+  if (history_date === getToday()) {
     return true;
   }
 
