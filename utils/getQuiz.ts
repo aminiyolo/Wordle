@@ -1,6 +1,6 @@
 import { WORDS } from '@/constant/words';
 
-export function getQuiz() {
+export function getQuiz(): string[] {
   const TODAY = new Date();
   const YEAR = TODAY.getFullYear();
   const MONTH = TODAY.getMonth() + 1;

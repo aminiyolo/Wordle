@@ -1,12 +1,11 @@
 // localStorage에 새로운 값을 세팅
 
-export function setStorage({
-  currentIdx,
-  records,
-}: {
+type Params = {
   currentIdx: number;
   records: string[];
-}) {
+};
+
+export function setStorage({ currentIdx, records }: Params): void {
   const data = JSON.parse(localStorage.getItem('history') ?? '{}');
   localStorage.setItem(
     'history',

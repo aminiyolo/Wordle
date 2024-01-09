@@ -1,4 +1,4 @@
-function getToday() {
+function getToday(): number {
   // 오늘 날짜 구하기
   const TODAY = new Date();
   return TODAY.getFullYear() + TODAY.getMonth() + TODAY.getDate();
@@ -16,7 +16,7 @@ export function initialize() {
   );
 }
 
-export function checkToday(history_date: number) {
+export function checkToday(history_date: number): boolean {
   // localStorage의 날짜 값과 오늘 날짜 값 비교
   if (history_date === getToday()) {
     return true;
