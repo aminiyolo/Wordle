@@ -1,10 +1,11 @@
 import React from 'react';
 import BaseModal from './baseModal';
 import WordBox from '../wordBox';
+import { StatusType } from '@/context/quizProvider';
 
 const FIRST_EXAMPLE = {
   str: ['ㅌ', 'ㅐ', 'ㅇ', 'ㅑ', 'ㅇ'],
-  info: `ㅌ은 '단어'에 포함되어 있으며, 올바른 위치에 있습니다.`,
+  info: `ㅐ은 '단어'에 포함되어 있으며, 올바른 위치에 있습니다.`,
   type: 'correct',
 } as const;
 
@@ -32,11 +33,14 @@ type Props = {
   handleClose: () => void;
 };
 
-const ExampleContainer = ({ example }: { example: Example }) => {
-  const isCorrect = example.type === 'correct';
-  const include = example.type === 'include';
-  const inCorrect = example.type === 'incorrect';
+function decideExampleType(type: StatusType, idx: number): StatusType {
+  if (type === 'correct' && idx === 1) return 'correct';
+  if (type === 'include' && idx === 2) return 'include';
+  if (type === 'incorrect' && idx === 3) return 'incorrect';
+  return '';
+}
 
+const ExampleContainer = ({ example }: { example: Example }) => {
   return (
     <div className='flex flex-col items-center mb-4'>
       <div className='flex flex-row mb-1'>
@@ -45,9 +49,8 @@ const ExampleContainer = ({ example }: { example: Example }) => {
             key={idx}
             word={str}
             info={true}
-            isCorrect={isCorrect && idx === 0}
-            isIncluded={include && idx === 2}
-            isCurrent={inCorrect && idx === 3}
+            isCurrent={idx === 3}
+            type={decideExampleType(example.type, idx)}
           />
         ))}
       </div>

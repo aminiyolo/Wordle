@@ -9,8 +9,9 @@ import {
 import { getQuiz } from '@/utils/getQuiz';
 import { checkToday, initialize } from '@/utils/checkToday';
 
+export type StatusType = 'correct' | 'include' | 'incorrect' | '';
 export type CheckType = Record<string, number>;
-export type KeypadCheckType = Record<string, string>;
+export type KeypadCheckType = Record<string, StatusType>;
 
 type QuizContextType = {
   quiz: string[];
