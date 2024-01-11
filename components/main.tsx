@@ -52,25 +52,17 @@ export default function Main() {
     // 키보드 이벤트
     if (success) return;
 
-    let isTryRefresh = false;
     const handler = (e: KeyboardEvent) => {
-      if (e.code === 'Enter' || e.code === 'Space') {
-        e.preventDefault();
-      }
+      if (e.code === 'Enter' || e.code === 'Space') e.preventDefault();
 
+      // 영어 입력 시
       if (/[a-zA-Z]/g.test(e.key) && e.key.length === 1) {
-        // 영어 입력 시
-        if (e.ctrlKey || e.metaKey) isTryRefresh = true;
-        if (isTryRefresh && e.key === 'r') {
-          isTryRefresh = false;
-          return;
-        }
-
-        if (isOpen) return;
+        if (isOpen) return; // 이미 alert가 노출되어 있는 상태라면 return
+        if (e.ctrlKey || e.metaKey) return; // (command || ctrl) + r => 키보드로 새로 고침시 alert 노출되지 않도록
         showError('한/영 키를 눌러 한글로 바꿔주세요!', { durationMs: 850 });
       }
 
-      if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/g.test(e.key)) handleKeypadClick(e.key); // 한글 입력 시
+      if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/g.test(e.key)) handleKeypadClick(e.key); // 한글 정상 입력 시
       if (e.key === 'Enter') handleEnter();
       if (e.key === 'Backspace') handleDelete();
     };
@@ -88,16 +80,8 @@ export default function Main() {
 
   useEffect(
     function showAlert() {
-      if (success) {
-        // 정답을 맞춘 상황
-        showSuccess('해냈어요!', { persist: true });
-        return;
-      }
-
-      if (fail) {
-        // 6번의 기회 내에 정답을 맞추지 못한 상황
-        showFail('실패했어요,', { persist: true });
-      }
+      if (success) showSuccess('해냈어요!', { persist: true }); // 성공
+      else if (fail) showFail('실패했어요,', { persist: true }); // 실패
     },
     [success, fail, showSuccess, showFail],
   );
