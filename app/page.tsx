@@ -27,9 +27,9 @@ export default function Home() {
         <AlertProvider>
           <Main />
           <Alert />
+          {isOpen && <InfoModal isOpen={isOpen} handleClose={handleClose} />}
         </AlertProvider>
       </QuizProvider>
-      {isOpen && <InfoModal isOpen={isOpen} handleClose={handleClose} />}
     </main>
   );
 }
